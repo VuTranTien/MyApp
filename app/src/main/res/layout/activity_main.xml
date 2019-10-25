@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dangnhap"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"/>
+    <EditText
+        android:id="@+id/edtuser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/txtuser"
+        android:layout_marginTop="20sp"
+        android:textSize="20sp"/>
+    <EditText
+        android:id="@+id/edtpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/txtpass"
+        android:layout_marginTop="20sp"
+        android:textSize="20sp"/>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btndangki"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btndangki"/>
+        <Button
+            android:id="@+id/btndangnhap"
+            android:layout_marginLeft="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btndangnhap"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
