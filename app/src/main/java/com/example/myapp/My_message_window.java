@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -17,15 +19,22 @@ import java.util.List;
 import utils.ImageConverter;
 
 public class My_message_window extends AppCompatActivity {
+
     ListView lsv;
     List<One_line_message> lst;
     NameAdapter adapter;
+    ImageView img_myavatar;
+    ImageButton btn_dangxuat;
+
+
     public My_message_window context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message_window);
-        anhxa();
+        Anhxa();
+
+        //Đổ data từ Adapter sa listview
         adapter = new NameAdapter(this,R.layout.oneline_message,lst);
         lsv.setAdapter(adapter);
         lsv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -34,14 +43,31 @@ public class My_message_window extends AppCompatActivity {
                 Intent it;
                 it = new Intent(My_message_window.this, oneTabChatActivity.class);
                 startActivity(it);
+
+
+            }
+        });
+
+        btn_dangxuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Todo: đăng xuất & chuyển sang main_activity
+
+
+
             }
         });
     }
-    public void anhxa(){
+    public void Anhxa(){
         lsv = (ListView) findViewById(R.id.lsv_user) ;
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.meo);
-        Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 500);
+        img_myavatar = (ImageView) findViewById(R.id.img_myavatar);
+        btn_dangxuat = (ImageButton) findViewById(R.id.btn_dangxuat);
 
+        Bitmap my_avatar_bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.default_avatar);
+        //Todo: thay R.drawable.default_avatar bằng ảnh lấy từ bundle
+
+        Bitmap my_avatar_circularBitmap = ImageConverter.getRoundedCornerBitmap(my_avatar_bitmap, 500);
+        img_myavatar.setImageBitmap(my_avatar_circularBitmap);
 
         lst = new ArrayList<One_line_message>();
         lst.add(new One_line_message("Tiến Vũ","hello!",R.drawable.meo,true));

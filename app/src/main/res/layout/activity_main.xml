@@ -23,6 +23,7 @@
         android:textSize="20sp"/>
     <EditText
         android:id="@+id/edtpass"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/txtpass"
@@ -30,6 +31,7 @@
         android:textSize="20sp"/>
     <LinearLayout
         android:gravity="center"
+        android:layout_marginTop="40sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

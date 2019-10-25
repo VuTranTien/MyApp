@@ -8,30 +8,59 @@
     tools:context=".My_message_window">
 
     <LinearLayout
-        android:orientation="horizontal"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:scaleType="center"
             android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:background="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:scaleY="0.6" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chat"
-            android:textSize="30sp"
             android:textColor="#000000"
-            android:textStyle="bold"/>
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_myavatar"
+            android:layout_marginLeft="5sp"
+            android:layout_width="41dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/default_avatar" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Tên hiển thị"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:textColor="#3C3A3A"
+            android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/btn_dangxuat"
+            android:layout_marginTop="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginLeft="100sp"
+            android:background="@null"
+            android:layout_width="25sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_lock_power_off" />
+
     </LinearLayout>
+
     <ListView
+        android:layout_marginTop="20sp"
         android:id="@+id/lsv_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"  />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
