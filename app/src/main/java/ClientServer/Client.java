@@ -54,4 +54,7 @@ public class Client {
     public void setEmail(String email) {
         Email = email;
     }
+    public String getText(){
+        return "Client";
+    }
 }

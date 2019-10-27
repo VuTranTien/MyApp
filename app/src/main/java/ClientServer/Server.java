@@ -54,4 +54,7 @@ public class Server {
     public void setEmail(String email) {
         Email = email;
     }
+    public String getText(){
+        return "Server";
+    }
 }
