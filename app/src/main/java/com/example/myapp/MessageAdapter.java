@@ -131,7 +131,7 @@ public class MessageAdapter extends BaseAdapter {
 
         }
         else if(layout == R.layout.friend_message){
-            TextView txtFriend_mesage =  (TextView) convertView.findViewById(R.id.txtFriend_mesage);
+            TextView txtFriend_mesage =  (TextView) convertView.findViewById(R.id.txtFriend_message);
 
             MyMessage one = lst.get(position);
             txtFriend_mesage.setText(one.getContent());

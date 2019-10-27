@@ -28,12 +28,12 @@ public class PeerThread extends Thread {
     MessageAdapter messAdapter;
     Context context;
 
-    public PeerThread(Socket socket, ArrayList<MyMessage> listmsg) throws IOException{
+    public PeerThread(Socket socket) throws IOException{
         bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         
 
     }
-    public void run(){
+    public void run(ArrayList<MyMessage> listmsg){
         boolean flag = true;
         while(flag){
             try
@@ -43,7 +43,8 @@ public class PeerThread extends Thread {
                 if (jsonObject.containsKey("username")){
                     //Todo: gọi phương thức khởi tạo cho MessageAdapter
                     
-                    MessageAdapter msgAdapter = new MessageAdapter(this.context,R.layout.friend_message,)
+                    MessageAdapter msgAdapter = new MessageAdapter(this.context,R.layout.friend_message,listmsg) ;
+
                 }
 
             } catch (Exception e){

@@ -18,7 +18,7 @@ public class ServerThread extends Thread{
             while (true){
                 ServerThreadThread serverThreadThread = new ServerThreadThread(serverSocket.accept(),this);
                 serverThreadThreads.add(serverThreadThread);
-                serverThreadThread.start();
+                serverThreadThread.run();
             }
         }catch (Exception e){
             

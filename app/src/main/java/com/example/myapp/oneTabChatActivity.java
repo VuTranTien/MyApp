@@ -8,14 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -45,7 +41,17 @@ public class oneTabChatActivity extends AppCompatActivity {
 
 
     static Server server;
+
     static Client client;
+
+    public static void setServer(Server server) {
+        oneTabChatActivity.server = server;
+    }
+
+    public static void setClient(Client client) {
+        oneTabChatActivity.client = client;
+    }
+
     static ArrayList<MyMessage> listMessages;
     static ArrayList<Client> many_clients;
     @Override
@@ -57,14 +63,23 @@ public class oneTabChatActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        btnsend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(oneTabChatActivity.this,"thisss",Toast.LENGTH_SHORT).show();
-                //Todo: sự kiện cho btn send message
-            }
-        });
-
+        final ServerThread serverThread;
+        try {
+            serverThread = new ServerThread(server.getPort());
+            serverThread.start();
+            final peer p = new peer(server,many_clients,this.context);
+            p.updateListenToPeers(edt_messageContent,server.getHostName(),serverThread,Listmsg);
+            btnsend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                Toast.makeText(oneTabChatActivity.this,"thisss",Toast.LENGTH_SHORT).show();
+                    //Todo: sự kiện cho btn send message
+                    p.communicate(edt_messageContent,server.getHostName(),serverThread);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         btn_chooseImage.setOnClickListener(new View.OnClickListener() {
@@ -91,12 +106,7 @@ public class oneTabChatActivity extends AppCompatActivity {
         Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 500);
         ImageView circularImageView = (ImageView) findViewById(R.id.img_avatar_OneTapChat);
         circularImageView.setImageBitmap(circularBitmap);
-        ServerThread serverThread = new ServerThread(server.getPort());
-        serverThread.start();
 
-        peer p = new peer(server,many_clients,this.context);
-//        p.startChat(edt_messageContent);
-        p.updateListenToPeers(edt_messageContent,server.getHostName(),serverThread,Listmsg);
         
 
     }
@@ -121,7 +131,8 @@ public class oneTabChatActivity extends AppCompatActivity {
                 Socket socket = null;
                 try{
                     socket = new Socket(many_clients.get(i).getHostName(),Integer.valueOf(many_clients.get(i).getPort()));
-                    new PeerThread(socket,lst_message).start();
+                    PeerThread p = new PeerThread(socket);
+                    p.run(lst_message);
                 }catch (Exception e){
                     if (socket!=null) {
                         socket.close();
@@ -131,7 +142,7 @@ public class oneTabChatActivity extends AppCompatActivity {
                     }
                 }
             }
-            communicate(edt_messageContent,username,serverThread);
+
 
         }
         public void communicate(EditText edt_messageContent, String username, ServerThread serverThread){

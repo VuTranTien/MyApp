@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import ClientServer.Server;
 
-public class ServerThreadThread {
+public class ServerThreadThread extends Thread{
     private ServerThread serverThread;
     private Socket socket;
     private PrintWriter printWriter;
@@ -22,7 +22,7 @@ public class ServerThreadThread {
         return printWriter;
     }
 
-    public void start() {
+    public void run() {
         try{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((this.socket.getInputStream())));
             this.printWriter = new PrintWriter(socket.getOutputStream(),true);
