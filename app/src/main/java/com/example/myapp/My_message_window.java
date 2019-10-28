@@ -41,10 +41,11 @@ public class My_message_window extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent it;
-                it = new Intent(My_message_window.this, oneTabChatActivity.class);
-                startActivity(it);
+                if(lsv.getSelectedView().findViewById(R.id.status)==null)  {
+                    it = new Intent(My_message_window.this, oneTabChatActivity.class);
+                    startActivity(it);
 
-
+                }
             }
         });
 
