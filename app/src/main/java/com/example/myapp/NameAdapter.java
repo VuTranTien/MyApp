@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import Model.One_line_message;
 
 
 import java.util.List;
@@ -57,11 +57,11 @@ public class NameAdapter extends BaseAdapter {
 
         One_line_message one = lst.get(position);
         txtTen.setText(one.getName());
-        txtmessage.setText(one.getLastmess());
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),one.getImg());
+        txtmessage.setText(one.getLastMessage());
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),one.getImage());
         Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 600);
         avatar.setImageBitmap(circularBitmap);
-        if (one.isStatus()== true) {
+        if (one.getStatus()== true) {
             stt.setImageResource(R.drawable.status_icon);
         }
         return convertView;

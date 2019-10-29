@@ -83,65 +83,61 @@ import android.widget.TextView;
 
 
 
-import java.util.List;
-
-import PeerToPeer.MyMessage;
-import utils.ImageConverter;
-
-public class MessageAdapter extends BaseAdapter {
-
-    private Context context;
-    private int layout;
-    private List<MyMessage> lst;
-
-    public MessageAdapter(Context context, int layout, List<MyMessage> lst) {
-        this.context = context;
-        this.layout = layout;
-        this.lst = lst;
-    }
-
-    @Override
-    public int getCount() {
-        return lst.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInf.inflate(layout,null);
-
-        //ánh xạ
-
-        if (layout == R.layout.my_message){
-            TextView txtMyMessage = (TextView) convertView.findViewById(R.id.txtMyMessage);
-
-
-            MyMessage one = lst.get(position);
-            txtMyMessage.setText(one.getContent());
-
-        }
-        else if(layout == R.layout.friend_message){
-            TextView txtFriend_mesage =  (TextView) convertView.findViewById(R.id.txtFriend_message);
-
-            MyMessage one = lst.get(position);
-            txtFriend_mesage.setText(one.getContent());
-
-
-
-        }
-        return convertView;
-
-
-    }
-
-}
+//import java.util.List;
+//
+//import PeerToPeer.MyMessage;
+//import utils.ImageConverter;
+//
+//public class MessageAdapter extends BaseAdapter {
+//
+//    private Context context;
+//    private int layout;
+//    private List<MyMessage> lst;
+//
+//    public MessageAdapter(Context context, int layout, List<MyMessage> lst) {
+//        this.context = context;
+//        this.layout = layout;
+//        this.lst = lst;
+//    }
+//
+//    @Override
+//    public int getCount() {
+//        return lst.size();
+//    }
+//
+//    @Override
+//    public Object getItem(int position) {
+//        return null;
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        LayoutInflater layoutInf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+//        convertView = layoutInf.inflate(layout,null);
+//
+//        //ánh xạ
+//
+//        if (lst.get(position).getReceiver().equals("friend")){
+//            TextView txtMyMessage = (TextView) convertView.findViewById(R.id.txtMyMessage);
+//
+//            txtMyMessage.setText(lst.get(position).getContent());
+//
+//        }
+//        else if(lst.get(position).getReceiver().equals("me")){
+//            TextView txtFriend_mesage =  (TextView) convertView.findViewById(R.id.txtFriend_message);
+//            txtFriend_mesage.setText(lst.get(position).getContent());
+//
+//
+//
+//        }
+//        return convertView;
+//
+//
+//    }
+//
+//}

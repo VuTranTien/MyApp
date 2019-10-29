@@ -53,7 +53,7 @@
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txt_clientname"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textColor="#4C4C4C"

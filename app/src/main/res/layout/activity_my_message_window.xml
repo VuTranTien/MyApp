@@ -37,6 +37,7 @@
             android:layout_height="match_parent"
             app:srcCompat="@drawable/default_avatar" />
         <TextView
+            android:id="@+id/edt_tenhienthi"
             android:layout_width="wrap_content"
             android:text="Tên hiển thị"
             android:textSize="24dp"
