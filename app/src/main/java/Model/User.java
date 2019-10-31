@@ -1,25 +1,25 @@
 package Model;
 
 public class User {
-    protected String ID;
-    protected String Name;
-    protected int Image;
+    private String Email;
+    private String Name;
+    private String Pass;
 
-    public User(String ID, String name, int image) {
-        this.ID = ID;
+    public User(String email, String name, String pass) {
+        Email = email;
         Name = name;
-        Image = image;
+        Pass = pass;
     }
     public User(){
 
     }
 
-    public String getID() {
-        return ID;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getName() {
@@ -30,11 +30,11 @@ public class User {
         Name = name;
     }
 
-    public int getImage() {
-        return Image;
+    public String getPass() {
+        return Pass;
     }
 
-    public void setImage(int image) {
-        Image = image;
+    public void setPass(String pass) {
+        Pass = pass;
     }
 }

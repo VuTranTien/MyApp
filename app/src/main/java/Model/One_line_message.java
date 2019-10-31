@@ -1,26 +1,30 @@
 package Model;
 
-public class One_line_message  {
-    private String ID;
+import java.io.Serializable;
+
+public class One_line_message implements Serializable {
+    private String Email;
     private String Name;
-    private int Image;
+    private String Image;
     private String lastMessage;
     private Boolean status;
+    private String UID;
 
-    public One_line_message(String ID, String name, int image, String lastMessage, Boolean status) {
-        this.ID = ID;
+    public One_line_message(String email, String name, String image, String lastMessage, Boolean status, String UID) {
+        Email = email;
         Name = name;
         Image = image;
         this.lastMessage = lastMessage;
         this.status = status;
+        this.UID = UID;
     }
 
-    public String getID() {
-        return ID;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getName() {
@@ -31,11 +35,11 @@ public class One_line_message  {
         Name = name;
     }
 
-    public int getImage() {
+    public String getImage() {
         return Image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         Image = image;
     }
 
@@ -53,5 +57,13 @@ public class One_line_message  {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 }

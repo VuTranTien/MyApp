@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -84,9 +85,12 @@ public class DangkiActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(DangkiActivity.this, "Đăng Ký Thành Công", Toast.LENGTH_SHORT).show();
                             Intent intent_to_message = new Intent(DangkiActivity.this,My_message_window.class);
+                            intent_to_message.putExtra("name",name);
                             startActivity(intent_to_message);
-                            DangKyThanhVien dk = new DangKyThanhVien(name, email, password);
+                            DangKyThanhVien dk = new DangKyThanhVien(name, email, password,mAuthencation.getCurrentUser().getUid());
+
                             mData.child("List of members!!!").push().setValue(dk);
+                            
                         }
                         else {
                             Toast.makeText(DangkiActivity.this, "Lỗi!!!", Toast.LENGTH_SHORT).show();

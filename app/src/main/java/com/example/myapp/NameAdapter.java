@@ -21,13 +21,16 @@ public class NameAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<One_line_message> lst;
+    private TextView txtTen;
+    private TextView txtmessage;
+    private ImageView avatar;
+    private ImageView stt;
 
     public NameAdapter(Context context, int layout, List<One_line_message> lst) {
         this.context = context;
         this.layout = layout;
         this.lst = lst;
     }
-
     @Override
     public int getCount() {
         return lst.size();
@@ -38,6 +41,13 @@ public class NameAdapter extends BaseAdapter {
         return null;
     }
 
+    private class ViewHolder{
+        TextView txt_Ten;
+        TextView txt_message;
+        ImageView avatar;
+        ImageView stt;
+    }
+
     @Override
     public long getItemId(int position) {
         return 0;
@@ -45,24 +55,35 @@ public class NameAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInf.inflate(layout,null);
+        ViewHolder holder;
+        if(convertView == null){
+            LayoutInflater layoutInf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInf.inflate(layout,null);
+            holder = new ViewHolder();
 
-        //ánh xạ
-        TextView txtTen = (TextView) convertView.findViewById(R.id.ten);
-        TextView txtmessage = (TextView) convertView.findViewById(R.id.lastmess);
-        ImageView avatar = (ImageView) convertView.findViewById(R.id.img1);
+            //ánh xạ
+            holder.txt_Ten = (TextView) convertView.findViewById(R.id.ten);
+            holder.txt_message = (TextView) convertView.findViewById(R.id.lastmess);
+            holder.avatar = (ImageView) convertView.findViewById(R.id.img1);
 
-        ImageView stt = (ImageView) convertView.findViewById(R.id.status);
+            holder.stt = (ImageView) convertView.findViewById(R.id.status);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+
 
         One_line_message one = lst.get(position);
-        txtTen.setText(one.getName());
-        txtmessage.setText(one.getLastMessage());
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),one.getImage());
+        holder.txt_Ten.setText(one.getName());
+        holder.txt_message.setText(one.getLastMessage());
+        int image = one.getImage().equals("default")?R.drawable.default_avatar:1;
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),image);
         Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 600);
-        avatar.setImageBitmap(circularBitmap);
+        holder.avatar.setImageBitmap(circularBitmap);
         if (one.getStatus()== true) {
-            stt.setImageResource(R.drawable.status_icon);
+            holder.stt.setImageResource(R.drawable.status_icon);
         }
         return convertView;
 

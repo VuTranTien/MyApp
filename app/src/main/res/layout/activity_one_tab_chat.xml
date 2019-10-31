@@ -87,6 +87,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RC_Compose"
+        android:layout_width="376dp"
+        android:layout_height="555dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_messageContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!--    <de.hdodenhof.circleimageview.CircleImageView-->
 <!--        android:layout_width="77dp"-->
 <!--        android:layout_height="84dp"-->

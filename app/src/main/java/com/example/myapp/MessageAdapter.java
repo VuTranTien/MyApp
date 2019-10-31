@@ -82,62 +82,86 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-//import java.util.List;
-//
-//import PeerToPeer.MyMessage;
-//import utils.ImageConverter;
-//
-//public class MessageAdapter extends BaseAdapter {
-//
-//    private Context context;
-//    private int layout;
-//    private List<MyMessage> lst;
-//
-//    public MessageAdapter(Context context, int layout, List<MyMessage> lst) {
-//        this.context = context;
-//        this.layout = layout;
-//        this.lst = lst;
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return lst.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        LayoutInflater layoutInf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-//        convertView = layoutInf.inflate(layout,null);
-//
-//        //ánh xạ
-//
-//        if (lst.get(position).getReceiver().equals("friend")){
-//            TextView txtMyMessage = (TextView) convertView.findViewById(R.id.txtMyMessage);
-//
-//            txtMyMessage.setText(lst.get(position).getContent());
-//
-//        }
-//        else if(lst.get(position).getReceiver().equals("me")){
-//            TextView txtFriend_mesage =  (TextView) convertView.findViewById(R.id.txtFriend_message);
-//            txtFriend_mesage.setText(lst.get(position).getContent());
-//
-//
-//
-//        }
-//        return convertView;
-//
-//
-//    }
-//
-//}
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.security.PublicKey;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import Model.Message;
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
+
+    public static final int MSG_FROM_FRIEND = 0;
+    public static final int MSG_FROM_ME = 1;
+    private Context mContext;
+    private List<Message> messageList;
+    FirebaseUser fuser;
+
+    public MessageAdapter(Context mContext, List<Message> messageList) {
+        this.mContext = mContext;
+        this.messageList = messageList;
+    }
+
+
+    @NonNull
+    @Override
+    public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType == MSG_FROM_ME) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.my_message,parent, false);
+            return new MessageAdapter.ViewHolder(view);
+            
+        }
+        else {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.friend_message,parent, false);
+            return new MessageAdapter.ViewHolder(view);
+        }
+
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
+        Message message = messageList.get(position);
+        holder.show_message.setText(message.getMessage());
+        holder.show_time.setText(message.getTime());
+
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public int getItemCount() {
+        return messageList.size();
+    }
+
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView show_message;
+        public TextView show_time;
+
+        public ViewHolder(View view) {
+            super(view);
+            show_message = view.findViewById(R.id.txtmyMessage);
+            show_time = view.findViewById(R.id.txt_Mtime);
+
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        if (messageList.get(position).getSender().equals(fuser.getEmail())) {
+            return MSG_FROM_ME;
+        }
+        else return MSG_FROM_FRIEND;
+    }
+}

@@ -7,17 +7,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +33,6 @@ import utils.ImageConverter;
 public class My_message_window extends AppCompatActivity {
 
     ListView lsv;
-    List<One_line_message> lst;
     NameAdapter nameAdapter;
     ImageView img_myavatar;
     ImageButton btn_dangxuat;
@@ -55,27 +50,48 @@ public class My_message_window extends AppCompatActivity {
         setContentView(R.layout.activity_my_message_window);
         mUsers = new ArrayList<One_line_message>();
         mAuth = FirebaseAuth.getInstance();
-        Intent receive_in = new Intent();
-//        receive_in.getFlags();
-
-
+        Intent it = getIntent();
 
         Anhxa();
+        tenhienthi.setText(it.getStringExtra("name"));
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
+        Toast.makeText(My_message_window.this,currentUser.getEmail(),Toast.LENGTH_SHORT).show();
 
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUsers.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+                    assert user != null;
+                    assert currentUser != null;
 
+                    if (!user.getEmail().equals(currentUser.getEmail())){
+                        mUsers.add(new One_line_message(user.getEmail(),user.getName(),"default","",true,currentUser.getUid()));
+                    }
+                }
 
+                nameAdapter = new NameAdapter(My_message_window.this,R.layout.oneline_message,mUsers);
+                lsv.setAdapter(nameAdapter);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         //Đổ data từ Adapter sa listview
-        readUsers();
+//        readUsers();
         lsv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent it;
 
-                if(lst.get(position).getStatus() == true) {
+                if(mUsers.get(position).getStatus() == true) {
 
                         it = new Intent(My_message_window.this, oneTabChatActivity.class);
-
+                        it.putExtra("friend",mUsers.get(position));
                         startActivity(it);
                         
                 }
@@ -100,35 +116,17 @@ public class My_message_window extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        Toast.makeText(My_message_window.this,currentUser.getEmail(),Toast.LENGTH_SHORT).show();
 
     }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Toast.makeText(My_message_window.this,"Reloaded",Toast.LENGTH_SHORT).show();
-    }
-
+    
     public void Anhxa(){
         lsv = (ListView) findViewById(R.id.lsv_user) ;
         img_myavatar = (ImageView) findViewById(R.id.img_myavatar);
         btn_dangxuat = (ImageButton) findViewById(R.id.btn_dangxuat);
         tenhienthi = (TextView) findViewById(R.id.edt_tenhienthi);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference("List of members!!!").child(currentUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                tenhienthi.setText(user.getName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
         Bitmap my_avatar_bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.default_avatar);
@@ -138,36 +136,13 @@ public class My_message_window extends AppCompatActivity {
         img_myavatar.setImageBitmap(my_avatar_circularBitmap);
 
     }
-    private void readUsers(){
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
-        Toast.makeText(My_message_window.this,currentUser.getDisplayName(),Toast.LENGTH_SHORT).show();
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
-                    assert user != null;
-                    assert currentUser != null;
-
-                    if (!user.getID().equals(currentUser.getUid())){
-
-                        mUsers.add(new One_line_message(user.getID(),user.getName(),user.getImage(),"",true));
-                    }
-                }
-
-                nameAdapter = new NameAdapter(My_message_window.this,R.layout.oneline_message,mUsers);
-                lsv.setAdapter(nameAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        Intent back_intent = new Intent(My_message_window.this,MainActivity.class);
+        startActivity(back_intent);
     }
+//    private void readUsers(){
+
+//    }
 
 }

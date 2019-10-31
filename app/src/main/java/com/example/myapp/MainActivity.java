@@ -10,12 +10,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 import android.widget.EditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import Model.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     Button btndangki;
     EditText editEmail, editPass;
     FirebaseAuth mAuthencation;
+    FirebaseUser user;
+    String tem="null";
     
 
     @Override
@@ -50,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Anhxa(){
         btndangnhap = (Button) findViewById(R.id.btndangnhap);
-        btndangki = (Button) findViewById(R.id.btndangki);
-        editEmail       = (EditText) findViewById(R.id.edtuser);
-        editPass        = (EditText) findViewById(R.id.edtpass);
-        editEmail.setText("quan@gmail.com");
+        btndangki   = (Button) findViewById(R.id.btndangki);
+        editEmail   = (EditText) findViewById(R.id.edtuser);
+        editPass    = (EditText) findViewById(R.id.edtpass);
+        editEmail.setText("vutr1@gmai.com");
         editPass.setText("123456");
 
     }
@@ -65,17 +78,44 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Đăng Nhập Thành Công", Toast.LENGTH_SHORT).show();
-                            Intent intent_to_dangnhap = new Intent(MainActivity.this,My_message_window.class);
-                            FirebaseUser user = mAuthencation.getCurrentUser();
-                            intent_to_dangnhap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK) ;
-                            startActivity(intent_to_dangnhap);
-                            finish();
+                            user = mAuthencation.getCurrentUser();
+                            getEmail();
+                            
+                            if (!tem.equals("null")){
+                                Intent intent_to_dangnhap = new Intent(MainActivity.this,My_message_window.class);
+                                intent_to_dangnhap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent_to_dangnhap.putExtra("name",tem);
+                                startActivity(intent_to_dangnhap);
+                                finish();
+                            }
+
                         }
+
                         else {
                             Toast.makeText(MainActivity.this, "Lỗi!!!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+    }
+    private void getEmail() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("List of members!!!");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snaphot : dataSnapshot.getChildren()) {
+                    User _user = snaphot.getValue(User.class);
+                    if (_user.getEmail().equals(user.getEmail())) {
+                        tem = _user.getName();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
