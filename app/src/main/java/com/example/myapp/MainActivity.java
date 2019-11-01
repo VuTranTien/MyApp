@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         btndangki   = (Button) findViewById(R.id.btndangki);
         editEmail   = (EditText) findViewById(R.id.edtuser);
         editPass    = (EditText) findViewById(R.id.edtpass);
-        editEmail.setText("vutr1@gmai.com");
+        editEmail.setText("hsnss@gmai.com");
         editPass.setText("123456");
 
     }

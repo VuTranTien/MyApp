@@ -56,6 +56,7 @@ public class oneTabChatActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference reference;
     MessageAdapter messageAdapter;
+    ImageButton btn_backchat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +112,16 @@ public class oneTabChatActivity extends AppCompatActivity {
                 //Todo: sự kiện cho btn call video
             }
         });
+        btn_backchat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it1 = new Intent(oneTabChatActivity.this,My_message_window.class);
+                startActivity(it1);
+            }
+        });
     }
     public void Anhxa() throws IOException {
+        btn_backchat = (ImageButton) findViewById(R.id.btn_backchat);
         btnsend = (ImageButton) findViewById(R.id.btnsend);
         btn_callVideo = (ImageButton) findViewById(R.id.btn_callVideol);
         btn_chooseImage = (ImageButton) findViewById(R.id.btn_chooseImage); 
@@ -143,6 +152,7 @@ public class oneTabChatActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         hashMap.put("time",formatter.format(date));
         reference.child("ChatsContent").push().setValue(hashMap);
+        edt_messageContent.setText("");
 
     }
     private void readMessage(){
@@ -157,7 +167,6 @@ public class oneTabChatActivity extends AppCompatActivity {
                     if (mes == null) Toast.makeText(oneTabChatActivity.this,"Message is NULL",Toast.LENGTH_SHORT).show();
                     if((mes.getReceiver().equals(me.getEmail()) && mes.getSender().equals(friend.getEmail())) || (mes.getReceiver().equals(friend.getEmail()) && mes.getSender().equals(me.getEmail()))){
                         messageList.add(mes);
-
                     }
                     messageAdapter = new MessageAdapter(oneTabChatActivity.this,messageList);
                     recyclerView.setAdapter(messageAdapter);

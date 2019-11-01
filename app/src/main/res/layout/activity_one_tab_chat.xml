@@ -8,7 +8,7 @@
     tools:context=".oneTabChatActivity" >
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/btn_backchat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -18,7 +18,6 @@
         app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/edt_messageContent"
         android:layout_width="237dp"
@@ -27,7 +26,7 @@
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnsend" />
 
@@ -87,15 +86,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RC_Compose"
-        android:layout_width="376dp"
-        android:layout_height="555dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="24dp"
+    <LinearLayout
+        android:layout_width="366dp"
+        android:layout_height="530dp"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toTopOf="@+id/edt_messageContent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_clientname"
+        app:layout_constraintVertical_bias="0.272">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RC_Compose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/edt_messageContent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_avatar_OneTapChat" />
+    </LinearLayout>
 
     <!--    <de.hdodenhof.circleimageview.CircleImageView-->
 <!--        android:layout_width="77dp"-->
