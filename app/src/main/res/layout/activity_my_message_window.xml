@@ -8,60 +8,65 @@
     tools:context=".My_message_window">
 
     <LinearLayout
-        android:layout_width="match_parent"
-
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent" 
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageButton
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:scaleType="center"
-            android:scaleX="0.6"
-            android:scaleY="0.6" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chat"
-            android:textColor="#000000"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/img_myavatar"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_width="41dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:srcCompat="@drawable/default_avatar" />-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginLeft="10dp"
             android:id="@+id/img_myavatar"
-            android:layout_marginLeft="5sp"
             android:layout_width="41dp"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/default_avatar" />
+            android:layout_height="41dp"
+            app:border_color="#FF000000"
+            app:border_width="2dp"
+            android:src="@drawable/default_avatar"
+            />
         <TextView
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
             android:id="@+id/edt_tenhienthi"
-            android:layout_width="wrap_content"
+            android:layout_width="200sp"
             android:text="Tên hiển thị"
             android:textSize="24dp"
             android:textStyle="bold"
             android:textColor="#3C3A3A"
             android:layout_height="match_parent"/>
 
-        <ImageButton
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_dangxuat"-->
+<!--            android:layout_marginTop="0dp"-->
+<!--            android:paddingTop="0dp"-->
+<!--            android:layout_marginLeft="120sp"-->
+<!--            android:background="@null"-->
+<!--            android:layout_width="25sp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="wrap_content"-->
+<!--            android:src="@drawable/btn_logout"/>-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginLeft="80sp"
             android:id="@+id/btn_dangxuat"
-            android:layout_marginTop="0dp"
-            android:paddingTop="0dp"
-            android:layout_marginLeft="100sp"
-            android:background="@null"
-            android:layout_width="25sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_lock_power_off" />
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            app:border_color="#FF000000"
+            android:src="@drawable/logout"/>
 
     </LinearLayout>
 
     <ListView
+
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20sp"
         android:id="@+id/lsv_user"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -5,16 +5,26 @@ public class DangKyThanhVien {
     private String Email;
     private String Pass;
     private String UID;
+    private String status;
 
     public DangKyThanhVien() {
         //Input Data
     }
 
-    public DangKyThanhVien(String name, String email, String pass, String UID) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public DangKyThanhVien(String name, String email, String pass, String UID,String status) {
         Name = name;
         Email = email;
         Pass = pass;
         this.UID = UID;
+        this.status = status;
     }
 
     public String getName() {

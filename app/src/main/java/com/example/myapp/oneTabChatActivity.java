@@ -11,10 +11,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,47 +38,58 @@ import java.util.List;
 import Model.Message;
 import Model.One_line_message;
 import Model.User;
+import de.hdodenhof.circleimageview.CircleImageView;
 import utils.ImageConverter;
 
 import javax.json.Json;
 
 public class oneTabChatActivity extends AppCompatActivity {
     ImageButton btnsend;
-    ImageView img_avatar_OneTabChat;
+    CircleImageView img_avatar_OneTabChat;
     ImageButton btn_chooseImage;
     ImageButton btn_callVideo;
     EditText edt_messageContent;
     TextView txt_clientname;
     Context context = this;
     FirebaseUser me;
+    String friendUid;
     One_line_message friend;
+    public User _friend;
     List<Message> messageList;
     RecyclerView recyclerView;
     DatabaseReference reference;
+    DatabaseReference reference2;
     MessageAdapter messageAdapter;
     ImageButton btn_backchat;
-
+    String Fname;
+    String Fimage;
+    String Fmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_tab_chat);
+
         Intent it = getIntent();
-        friend = (One_line_message) it.getSerializableExtra("friend");
+        friendUid =  it.getStringExtra("friend");
 
         me = FirebaseAuth.getInstance().getCurrentUser();
         if (me == null){
             Toast.makeText(oneTabChatActivity.this,"NULL",Toast.LENGTH_SHORT).show();
         }
+        
+//        Toast.makeText(oneTabChatActivity.this,_friend.getEmail(),Toast.LENGTH_SHORT).show();
         try {
             Anhxa();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         btnsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!edt_messageContent.getText().toString().equals("")){
-                    sendMessage(me.getEmail(),friend.getEmail(),edt_messageContent.getText().toString());
+                    sendMessage(me.getEmail(),_friend.getEmail(),edt_messageContent.getText().toString());
                 }
                 else {
                     Toast.makeText(oneTabChatActivity.this,"Nhập tin nhắn",Toast.LENGTH_SHORT).show();
@@ -87,7 +98,7 @@ public class oneTabChatActivity extends AppCompatActivity {
             }
         });
 
-        reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(friend.getUID());
+        reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(friendUid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,7 +110,7 @@ public class oneTabChatActivity extends AppCompatActivity {
 
             }
         });
-        
+
         btn_chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,13 +132,40 @@ public class oneTabChatActivity extends AppCompatActivity {
         });
     }
     public void Anhxa() throws IOException {
+        reference2 = FirebaseDatabase.getInstance().getReference("List of members!!!");
+        reference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if(snapshot.getKey().equals(friendUid)){
+
+                        _friend = snapshot.getValue(User.class);
+                        assert  _friend != null;
+//                        Toast.makeText(oneTabChatActivity.this,_friend.getName(),Toast.LENGTH_SHORT).show();
+
+                        Fname = _friend.getName();
+                        Fmail = _friend.getEmail();
+                        Fimage= _friend.getAvatar();
+                        txt_clientname.setText(Fname);
+                        byte[] mangHinh = Base64.decode(_friend.getAvatar(),Base64.DEFAULT);
+                        Bitmap bmp = BitmapFactory.decodeByteArray(mangHinh, 0 , mangHinh.length);
+                        img_avatar_OneTabChat.setImageBitmap(bmp);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         btn_backchat = (ImageButton) findViewById(R.id.btn_backchat);
         btnsend = (ImageButton) findViewById(R.id.btnsend);
         btn_callVideo = (ImageButton) findViewById(R.id.btn_callVideol);
-        btn_chooseImage = (ImageButton) findViewById(R.id.btn_chooseImage); 
-        img_avatar_OneTabChat = (ImageView) findViewById(R.id.img_avatar_OneTapChat);
+        btn_chooseImage = (ImageButton) findViewById(R.id.btn_chooseImage);
+        img_avatar_OneTabChat = (CircleImageView) findViewById(R.id.img_avatar_OneTapChat);
         txt_clientname = (TextView) findViewById(R.id.txt_clientname);
-        txt_clientname.setText(friend.getName());
+        txt_clientname.setText(Fname);
         edt_messageContent = (EditText) findViewById(R.id.edt_messageContent);
         recyclerView = (RecyclerView) findViewById(R.id.RC_Compose);
         recyclerView.setHasFixedSize(true);
@@ -135,11 +173,8 @@ public class oneTabChatActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),friend.getImage().equals("default")?R.drawable.meo:1);
-                                            //Todo: Thay R.drawable.meo bằng ảnh lấy từ Bundle
-        Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 500);
-        ImageView circularImageView = (ImageView) findViewById(R.id.img_avatar_OneTapChat);
-        circularImageView.setImageBitmap(circularBitmap);
+
+
 
     }
     private void sendMessage(String sender,String receiver, String message){
@@ -165,7 +200,7 @@ public class oneTabChatActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Message mes = snapshot.getValue(Message.class);
                     if (mes == null) Toast.makeText(oneTabChatActivity.this,"Message is NULL",Toast.LENGTH_SHORT).show();
-                    if((mes.getReceiver().equals(me.getEmail()) && mes.getSender().equals(friend.getEmail())) || (mes.getReceiver().equals(friend.getEmail()) && mes.getSender().equals(me.getEmail()))){
+                    if((mes.getReceiver().equals(me.getEmail()) && mes.getSender().equals(_friend.getEmail())) || (mes.getReceiver().equals(_friend.getEmail()) && mes.getSender().equals(me.getEmail()))){
                         messageList.add(mes);
                     }
                     messageAdapter = new MessageAdapter(oneTabChatActivity.this,messageList);
@@ -180,6 +215,52 @@ public class oneTabChatActivity extends AppCompatActivity {
         });
 
 
+    }
+//    private void getFriendInfo(){
+//        reference2 = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
+//        reference2.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    if(snapshot.getKey().equals(friendUid)){
+//
+//                        _friend = snapshot.getValue(User.class);
+//                        assert  _friend != null;
+//                        Toast.makeText(oneTabChatActivity.this,_friend.getEmail(),Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
+private void updateStatus(String stt){
+    reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(me.getUid());
+    HashMap<String,Object> hashMap = new HashMap<>();
+    hashMap.put("status",stt);
+    reference.updateChildren(hashMap);
+}
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        updateStatus("offline");
+//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatus("online");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateStatus("offline");
     }
         
 }

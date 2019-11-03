@@ -3,6 +3,7 @@ package com.example.myapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,11 +79,12 @@ public class NameAdapter extends BaseAdapter {
         One_line_message one = lst.get(position);
         holder.txt_Ten.setText(one.getName());
         holder.txt_message.setText(one.getLastMessage());
-        int image = one.getImage().equals("default")?R.drawable.default_avatar:1;
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),image);
-        Bitmap circularBitmap = ImageConverter.getRoundedCornerBitmap(bitmap, 600);
-        holder.avatar.setImageBitmap(circularBitmap);
-        if (one.getStatus()== true) {
+
+        byte[] mangHinh = Base64.decode(one.getImage(),Base64.DEFAULT);
+        Bitmap bmp = BitmapFactory.decodeByteArray(mangHinh, 0 , mangHinh.length);
+        
+        holder.avatar.setImageBitmap(bmp);
+        if (one.getStatus().equals("online")) {
             holder.stt.setImageResource(R.drawable.status_icon);
         }
         return convertView;

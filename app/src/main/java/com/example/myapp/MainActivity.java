@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuthencation;
     FirebaseUser user;
     String tem="null";
+    String status = "null";
+    DatabaseReference reference;
+    String avatar;
+
     
 
     @Override
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         btndangki   = (Button) findViewById(R.id.btndangki);
         editEmail   = (EditText) findViewById(R.id.edtuser);
         editPass    = (EditText) findViewById(R.id.edtpass);
-        editEmail.setText("hsnss@gmai.com");
+        editEmail.setText("vu@gmail.com");
         editPass.setText("123456");
 
     }
@@ -79,15 +84,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             user = mAuthencation.getCurrentUser();
-                            getEmail();
-                            
-                            if (!tem.equals("null")){
-                                Intent intent_to_dangnhap = new Intent(MainActivity.this,My_message_window.class);
-                                intent_to_dangnhap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent_to_dangnhap.putExtra("name",tem);
-                                startActivity(intent_to_dangnhap);
-                                finish();
-                            }
+//                            getInfor();
+
+                            Intent intent_to_dangnhap = new Intent(MainActivity.this,My_message_window.class);
+                            intent_to_dangnhap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                intent_to_dangnhap.putExtra("name",tem);
+                            startActivity(intent_to_dangnhap);
+                            finish();
 
                         }
 
@@ -97,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void getEmail() {
+    private void getInfor() {
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("List of members!!!");
+        reference = FirebaseDatabase.getInstance().getReference("List of members!!!");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     User _user = snaphot.getValue(User.class);
                     if (_user.getEmail().equals(user.getEmail())) {
                         tem = _user.getName();
+                        avatar = _user.getAvatar();
                     }
                 }
             }
@@ -118,4 +122,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+//    private void getStatus(String stt){
+//        reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(user.getUid());
+//        HashMap<String,Object> hashMap = new HashMap<>();
+//        hashMap.put("status",stt);
+//        reference.updateChildren(hashMap);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        getStatus("offline");
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        getStatus("online");
+//    }
 }

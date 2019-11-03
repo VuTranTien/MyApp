@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -23,10 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import Model.One_line_message;
 import Model.User;
+import de.hdodenhof.circleimageview.CircleImageView;
 import utils.ImageConverter;
 
 
@@ -35,28 +38,29 @@ public class My_message_window extends AppCompatActivity {
     ListView lsv;
     NameAdapter nameAdapter;
     ImageView img_myavatar;
-    ImageButton btn_dangxuat;
+    CircleImageView btn_dangxuat;
     FirebaseUser currentUser;
     DatabaseReference reference;
     private List<One_line_message> mUsers;
     private TextView tenhienthi;
     private FirebaseAuth mAuth;
-
+    private String avatar;
 
     public My_message_window context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);;
         setContentView(R.layout.activity_my_message_window);
         mUsers = new ArrayList<One_line_message>();
         mAuth = FirebaseAuth.getInstance();
-        Intent it = getIntent();
-
-        Anhxa();
-        tenhienthi.setText(it.getStringExtra("name"));
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
-        Toast.makeText(My_message_window.this,currentUser.getEmail(),Toast.LENGTH_SHORT).show();
+        Anhxa();
+
+
+        //Todo: lay anh tu intent "avatar"
+
+
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,7 +72,15 @@ public class My_message_window extends AppCompatActivity {
                     assert currentUser != null;
 
                     if (!user.getEmail().equals(currentUser.getEmail())){
-                        mUsers.add(new One_line_message(user.getEmail(),user.getName(),"default","",true,currentUser.getUid()));
+                        mUsers.add(new One_line_message(user.getEmail(),user.getName(),user.getAvatar(),"",user.getStatus(),user.getUid()));
+                    }
+                    else {
+                        tenhienthi.setText(user.getName());
+                        byte[] mangHinh = Base64.decode(user.getAvatar(),Base64.DEFAULT);
+                        Bitmap bmp = BitmapFactory.decodeByteArray(mangHinh, 0 , mangHinh.length);
+                        img_myavatar.setImageBitmap(bmp);
+
+
                     }
                 }
 
@@ -81,24 +93,14 @@ public class My_message_window extends AppCompatActivity {
 
             }
         });
-        //Đổ data từ Adapter sa listview
-//        readUsers();
         lsv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent it;
-
-                if(mUsers.get(position).getStatus() == true) {
-
-                        it = new Intent(My_message_window.this, oneTabChatActivity.class);
-                        it.putExtra("friend",mUsers.get(position));
-                        startActivity(it);
-                        
-                }
-                else {
-                    Toast.makeText(My_message_window.this,"User is Offline",Toast.LENGTH_SHORT).show();
-                }
-
+                it = new Intent(My_message_window.this, oneTabChatActivity.class);
+                it.putExtra("friend",mUsers.get(position).getUID());
+//                Toast.makeText(My_message_window.this,mUsers.get(position).getStatus(),Toast.LENGTH_SHORT).show();
+                startActivity(it);
             }
         });
 
@@ -106,27 +108,21 @@ public class My_message_window extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Todo: đăng xuất & chuyển sang main_activity
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(My_message_window.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
 
 
             }
         });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        Toast.makeText(My_message_window.this,currentUser.getEmail(),Toast.LENGTH_SHORT).show();
-
-    }
     
     public void Anhxa(){
         lsv = (ListView) findViewById(R.id.lsv_user) ;
         img_myavatar = (ImageView) findViewById(R.id.img_myavatar);
-        btn_dangxuat = (ImageButton) findViewById(R.id.btn_dangxuat);
+        btn_dangxuat = (CircleImageView) findViewById(R.id.btn_dangxuat);
         tenhienthi = (TextView) findViewById(R.id.edt_tenhienthi);
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
         Bitmap my_avatar_bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.default_avatar);
@@ -141,8 +137,36 @@ public class My_message_window extends AppCompatActivity {
         Intent back_intent = new Intent(My_message_window.this,MainActivity.class);
         startActivity(back_intent);
     }
-//    private void readUsers(){
 
-//    }
+    private void updateStatus(String stt){
+        reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(currentUser.getUid());
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",stt);
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateStatus("offline");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        updateStatus("online");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateStatus("online");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateStatus("offline");
+    }
 
 }

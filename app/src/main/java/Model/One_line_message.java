@@ -7,18 +7,20 @@ public class One_line_message implements Serializable {
     private String Name;
     private String Image;
     private String lastMessage;
-    private Boolean status;
+    private String status;
     private String UID;
 
-    public One_line_message(String email, String name, String image, String lastMessage, Boolean status, String UID) {
-        Email = email;
-        Name = name;
-        Image = image;
+    public One_line_message(String email, String name, String image, String lastMessage, String status, String UID) {
+        this.Email = email;
+        this.Name = name;
+        this.Image = image;
         this.lastMessage = lastMessage;
         this.status = status;
         this.UID = UID;
     }
+    public One_line_message(){
 
+    }
     public String getEmail() {
         return Email;
     }
@@ -51,11 +53,11 @@ public class One_line_message implements Serializable {
         this.lastMessage = lastMessage;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

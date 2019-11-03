@@ -41,15 +41,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginLeft="10dp"
         android:id="@+id/img_avatar_OneTapChat"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        app:border_color="#FF000000"
+        app:border_width="2dp"
+        android:src="@drawable/default_avatar"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="298dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/img_avatar_OneTapChat"-->
+<!--        android:layout_width="45dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginEnd="298dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@mipmap/ic_launcher_round" />-->
+
 
     <TextView
         android:id="@+id/txt_clientname"
