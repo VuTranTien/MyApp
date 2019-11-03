@@ -13,7 +13,6 @@ public class ImageViewToString {
     public ImageViewToString(ImageView imageView){
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bmp = drawable.getBitmap();
-
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         this.byteArray = stream.toByteArray();
