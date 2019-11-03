@@ -9,14 +9,13 @@ public class One_line_message implements Serializable {
     private String lastMessage;
     private String status;
     private String UID;
-
     public One_line_message(String email, String name, String image, String lastMessage, String status, String UID) {
-        this.Email = email;
-        this.Name = name;
-        this.Image = image;
+        this.Email =    email;
+        this.Name  =    name;
+        this.Image =    image;
         this.lastMessage = lastMessage;
-        this.status = status;
-        this.UID = UID;
+        this.status =      status;
+        this.UID =         UID;
     }
     public One_line_message(){
 

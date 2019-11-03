@@ -38,11 +38,12 @@
         android:layout_height="wrap_content"/>
 
     <ImageView
-        android:layout_toRightOf="@+id/ten"
-        android:layout_marginTop="15dp"
         android:id="@+id/status"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
+        android:layout_width="15dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="-25dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/ten" />
 
 
 </RelativeLayout>

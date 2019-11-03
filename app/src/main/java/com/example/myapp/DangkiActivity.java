@@ -37,9 +37,8 @@ public class DangkiActivity extends AppCompatActivity {
     Button btn_xacnhandangki, btnUpload;
     EditText editTK, editMK, editTen;
     ImageView imgHinh;
-    int REQUEST_CODE_IMAGE = 1;
-
     private Uri filePath;
+    int REQUEST_CODE_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
 
     FirebaseAuth mAuthencation;

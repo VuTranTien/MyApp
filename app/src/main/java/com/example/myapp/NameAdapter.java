@@ -74,8 +74,6 @@ public class NameAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
-
         One_line_message one = lst.get(position);
         holder.txt_Ten.setText(one.getName());
         holder.txt_message.setText(one.getLastMessage());
@@ -86,6 +84,9 @@ public class NameAdapter extends BaseAdapter {
         holder.avatar.setImageBitmap(bmp);
         if (one.getStatus().equals("online")) {
             holder.stt.setImageResource(R.drawable.status_icon);
+        }
+        else {
+            holder.stt.setImageResource(R.drawable.offline_status);
         }
         return convertView;
 
