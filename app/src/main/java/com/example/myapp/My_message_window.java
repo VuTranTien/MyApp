@@ -36,7 +36,6 @@ public class My_message_window extends AppCompatActivity {
 
     ListView lsv;
     NameAdapter nameAdapter;
-    ImageView img_myavatar;
     CircleImageView btn_dangxuat;
     FirebaseUser currentUser;
     DatabaseReference reference;
@@ -44,7 +43,7 @@ public class My_message_window extends AppCompatActivity {
     private TextView tenhienthi;
     private FirebaseAuth mAuth;
     private String avatar;
-
+    private CircleImageView img_myavatar;
     public My_message_window context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +104,19 @@ public class My_message_window extends AppCompatActivity {
                 startActivity(new Intent(My_message_window.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
+        img_myavatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(My_message_window.this,ProfileActivity.class));
+            }
+        });
     }
     
     public void Anhxa(){
-        lsv = (ListView) findViewById(R.id.lsv_user) ;
-        img_myavatar = (ImageView) findViewById(R.id.img_myavatar);
-        btn_dangxuat = (CircleImageView) findViewById(R.id.btn_dangxuat);
-        tenhienthi = (TextView) findViewById(R.id.edt_tenhienthi);
+        lsv =  findViewById(R.id.lsv_user) ;
+        img_myavatar = findViewById(R.id.img_myavatar);
+        btn_dangxuat = findViewById(R.id.btn_dangxuat);
+        tenhienthi =  findViewById(R.id.edt_tenhienthi);
 
 
 
@@ -121,11 +126,6 @@ public class My_message_window extends AppCompatActivity {
         Bitmap my_avatar_circularBitmap = ImageConverter.getRoundedCornerBitmap(my_avatar_bitmap, 500);
         img_myavatar.setImageBitmap(my_avatar_circularBitmap);
 
-    }
-    @Override
-    public void onBackPressed() {
-        Intent back_intent = new Intent(My_message_window.this,MainActivity.class);
-        startActivity(back_intent);
     }
 
     private void updateStatus(String stt){
@@ -158,5 +158,8 @@ public class My_message_window extends AppCompatActivity {
         super.onStop();
         updateStatus("offline");
     }
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

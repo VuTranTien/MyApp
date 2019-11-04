@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background2"
     tools:context=".My_message_window">
 
     <LinearLayout
@@ -13,14 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
-
-<!--        <ImageView-->
-<!--            android:id="@+id/img_myavatar"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_width="41dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:srcCompat="@drawable/default_avatar" />-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_marginLeft="10dp"
             android:id="@+id/img_myavatar"
@@ -28,41 +21,28 @@
             android:layout_height="41dp"
             app:border_color="#FF000000"
             app:border_width="2dp"
-            android:src="@drawable/default_avatar"
             />
         <TextView
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:id="@+id/edt_tenhienthi"
             android:layout_width="200sp"
-            android:text="Tên hiển thị"
+            android:text=""
             android:textSize="24dp"
             android:textStyle="bold"
             android:textColor="#3C3A3A"
             android:layout_height="match_parent"/>
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/btn_dangxuat"-->
-<!--            android:layout_marginTop="0dp"-->
-<!--            android:paddingTop="0dp"-->
-<!--            android:layout_marginLeft="120sp"-->
-<!--            android:background="@null"-->
-<!--            android:layout_width="25sp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="wrap_content"-->
-<!--            android:src="@drawable/btn_logout"/>-->
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_marginLeft="80sp"
             android:id="@+id/btn_dangxuat"
             android:layout_width="41dp"
             android:layout_height="41dp"
             app:border_color="#FF000000"
-            android:src="@drawable/logout"/>
+            android:src="@drawable/logout2"/>
 
     </LinearLayout>
 
     <ListView
-
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20sp"
         android:id="@+id/lsv_user"

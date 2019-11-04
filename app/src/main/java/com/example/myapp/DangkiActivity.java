@@ -215,7 +215,6 @@ public class DangkiActivity extends AppCompatActivity {
 
     public void Anhxa1(){
         btn_xacnhandangki = (Button) findViewById(R.id.btn_xacnhandangki);
-        btnUpload         = (Button) findViewById(R.id.btnUpload);
         editTen           = (EditText) findViewById(R.id.edt_tenhienthi);
         editTK            = (EditText) findViewById(R.id.edt_emaildangki);
         editMK            = (EditText) findViewById(R.id.edt_passdangki);
