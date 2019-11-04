@@ -93,9 +93,60 @@ public class DangkiActivity extends AppCompatActivity {
     }
 
     private void DangKy(){
-        final String name = editTen.getText().toString();
-        final String email = editTK.getText().toString();
-        final String password = editMK.getText().toString();
+        final String name,email,password;
+
+
+        if (editTen.getText().toString().length() == 0) {
+            Toast.makeText(DangkiActivity.this, "Nhập Tên hiển thị", Toast.LENGTH_SHORT).show();
+            return;
+
+        } else if(editTen.getText().toString().contains("\\")
+                    || editTen.getText().toString().contains("@")
+                    || editTen.getText().toString().contains(",")
+                    || editTen.getText().toString().contains("{")
+                    || editTen.getText().toString().contains("}")
+                    || editTen.getText().toString().contains("[")
+                    || editTen.getText().toString().contains("]")
+                    || editTen.getText().toString().contains("|")
+                    || editTen.getText().toString().contains("\"")
+                    || editTen.getText().toString().contains("#")
+                    || editTen.getText().toString().contains("$")
+                    || editTen.getText().toString().contains("%")
+                    || editTen.getText().toString().contains("^")
+                    || editTen.getText().toString().contains("&")
+                    || editTen.getText().toString().contains("*")
+                    || editTen.getText().toString().contains("!")
+                    || editTen.getText().toString().contains("~")
+                    || editTen.getText().toString().contains("+")
+                    || editTen.getText().toString().contains("-")
+                    || editTen.getText().toString().contains("=")
+        ) {
+            Toast.makeText(DangkiActivity.this, "Tên không hợp lệ!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+            name = editTen.getText().toString().trim();
+        }
+
+
+        if(editTK.getText().toString().length()==0){
+            Toast.makeText(DangkiActivity.this, "Chưa nhập email!", Toast.LENGTH_SHORT).show();
+            return;
+        }else if(editTK.getText().toString().trim().contains("@gmail.com") == false && editTK.getText().toString().trim().contains("@hcmut.edu.vn")==false){
+            Toast.makeText(DangkiActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+            email = editTK.getText().toString();
+        }
+
+        if(editMK.getText().toString().length()==0){
+            Toast.makeText(DangkiActivity.this, "Chưa nhập mật khẩu!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+            password = editMK.getText().toString();
+        }
         mAuthencation.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

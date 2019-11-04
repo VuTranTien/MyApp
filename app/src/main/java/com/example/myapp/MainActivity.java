@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             user = mAuthencation.getCurrentUser();
-                            Toast.makeText(MainActivity.this,"ĐĂng nhập thành công!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
                             Intent intent_to_dangnhap = new Intent(MainActivity.this,My_message_window.class);
                             intent_to_dangnhap.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent_to_dangnhap.putExtra("resetPass",editPass.getText().toString());
