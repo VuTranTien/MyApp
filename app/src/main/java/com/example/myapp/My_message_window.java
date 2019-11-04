@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +47,7 @@ public class My_message_window extends AppCompatActivity {
     private String avatar;
     private CircleImageView img_myavatar;
     public My_message_window context = this;
+    private String resetPass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);;
@@ -52,7 +55,9 @@ public class My_message_window extends AppCompatActivity {
         mUsers = new ArrayList<One_line_message>();
         mAuth = FirebaseAuth.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
+        Intent it_reset = getIntent();
+        resetPass = it_reset.getStringExtra("resetPass");
         Anhxa();
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -72,7 +77,12 @@ public class My_message_window extends AppCompatActivity {
                         byte[] mangHinh = Base64.decode(user.getAvatar(),Base64.DEFAULT);
                         Bitmap bmp = BitmapFactory.decodeByteArray(mangHinh, 0 , mangHinh.length);
                         img_myavatar.setImageBitmap(bmp);
-
+                        if( resetPass==null ){} else if(   !resetPass.equals(user.getPass()))
+                        {
+                            HashMap<String, Object> result = new HashMap<>();
+                            result.put("pass", resetPass);
+                            snapshot.child("pass").getRef().updateChildren(result);
+                        }
 
                     }
                 }
@@ -101,6 +111,7 @@ public class My_message_window extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                finish();
                 startActivity(new Intent(My_message_window.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });

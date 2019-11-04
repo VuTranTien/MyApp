@@ -20,8 +20,7 @@
         android:id="@+id/txt_Mtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="36dp"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_message" />

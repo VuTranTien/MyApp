@@ -47,9 +47,6 @@ import Model.One_line_message;
 import Model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import utils.ImageConverter;
-
-import javax.json.Json;
 
 public class oneTabChatActivity extends AppCompatActivity {
     ImageButton btnsend;
@@ -265,28 +262,7 @@ public class oneTabChatActivity extends AppCompatActivity {
 
 
     }
-//    private void getFriendInfo(){
-//        reference2 = FirebaseDatabase.getInstance().getReference().child("List of members!!!");
-//        reference2.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    if(snapshot.getKey().equals(friendUid)){
-//
-//                        _friend = snapshot.getValue(User.class);
-//                        assert  _friend != null;
-//                        Toast.makeText(oneTabChatActivity.this,_friend.getEmail(),Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
+
 private void updateStatus(String stt){
     reference = FirebaseDatabase.getInstance().getReference("List of members!!!").child(me.getUid());
     HashMap<String,Object> hashMap = new HashMap<>();

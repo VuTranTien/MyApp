@@ -1,16 +1,9 @@
 package utils;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.example.myapp.oneTabChatActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;

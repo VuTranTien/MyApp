@@ -23,9 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
@@ -127,7 +124,6 @@ public class DangkiActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Intent intent_to_message = new Intent(DangkiActivity.this,My_message_window.class);
-//                                        intent_to_message.putExtra("name",name);
                                         startActivity(intent_to_message);
                                     }
                                     else {
